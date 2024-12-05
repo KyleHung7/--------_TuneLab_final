@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" href="tunelab_icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TuneLab</title>
+    <style>
+      * {
+        margin: 0; /* 去除所有元素的 margin */
+        padding: 0; /* 去除所有元素的 padding */
+        box-sizing: border-box; /* 確保 padding 和 border 不會影響元素的總寬度和高度 */
+      }
+      body {
+        min-height: 100vh; /* 確保 body 至少佔滿整個視口高度 */
+        overflow: hidden; /* 如果有多餘的內容，隱藏它 */
+      }
+      /* 添加样式 */
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background-color: black;
+        color: white;
+        padding: 10px 20px;
+      }
+      h1 {
+        font-size: 24px; /* 增大字体大小 */
+        margin: 0; /* 去掉默认的 margin */
+      }
+      .button {
+        background: linear-gradient(to right, #555, #333);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        cursor: pointer;
+        text-decoration: none;
+        border-radius: 5px;
+      }
+      .button:hover {
+        background: linear-gradient(to right, #666, #444);
+      }
+      .header-link {
+        color: white; /* Keep text color white */
+        text-decoration: none; /* Remove underline */
+        transition: color 0.3s; /* Smooth transition for color change */
+      }
+      .header-link:hover {
+        color: #ffd700; /* Change color on hover */
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <a href="/" class="header-link"><h1 style="font-size: 20px;">TuneLab</h1></a>
+      <a href="https://docs.google.com/forms/d/e/1FAIpQLScKTOCX_NDEdCz13PsNNeNYHwN16r8ADrXYGqlJZESVzrJT_A/viewform?usp=sharing" class="button">Sharing Form</a>
+    </header>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  * {
+    @apply m-0 p-0 box-border font-['Gilroy',sans-serif];
+  }
+
+  body {
+    @apply h-full bg-gradient-to-b from-[rgb(231,235,214)] to-[rgb(52,44,102)];
+  }
+
+  html {
+    @apply h-full;
+  }
+
+  h2, h3 {
+    @apply text-[#13183a];
+  }
+
+  h3, h4 {
+    @apply font-semibold;
+  }
+
+  button {
+    @apply font-bold;
+  }
+} 
