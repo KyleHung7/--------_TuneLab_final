@@ -92,7 +92,7 @@ const Player = ({
     };
 
     return (
-        <div className="min-h-[20vh] flex flex-col items-center justify-between">
+        <div className="mt-[-20px] min-h-[20vh] flex flex-col items-center justify-between">
             {/* Time Control */}
             <div className="w-full flex items-center md:w-[58%]">
                 <p className="p-2 font-bold text-sm md:text-lg">{getTime(songInfo.currentTime)}</p>
@@ -123,7 +123,7 @@ const Player = ({
             </div>
 
             {/* Play Control */}
-            <div className="flex justify-center items-center p-2 w-full">
+            <div className="mt-[-8px] flex justify-center items-center p-2 w-full">
                 <FontAwesomeIcon
                     onClick={() => skipTrackHandler("skip-back")}
                     size="2x"
