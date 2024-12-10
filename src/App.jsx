@@ -23,6 +23,32 @@ function MusicPlayer({ songs, setSongs }) {
     animationPercentage: 0,
   });
 
+  useEffect(() => {
+    if (currentSong) {
+      const mood = currentSong.mood[0]; // 假設 mood 是一個包含一個字串的陣列
+      switch (mood) {
+        case "happy":
+          document.body.style.backgroundImage =
+            "linear-gradient(0deg, rgba(179,89,0,1) 0%, rgba(237,145,53,1) 15%, rgba(241,221,192,1) 64%, rgba(247,242,237,1) 100%)";
+          break;
+        case "sad":
+          document.body.style.backgroundImage =
+            "linear-gradient(0deg, rgba(21,61,140,1) 0%, rgba(55,97,185,1) 28%, rgba(182,182,182,1) 64%, rgba(236,238,242,1) 100%)";
+          break;
+        case "energetic":
+          document.body.style.backgroundImage =
+            "linear-gradient(0deg, rgba(179,0,0,1) 0%, rgba(237,53,53,1) 15%, rgba(241,192,192,1) 64%, rgba(247,237,237,1) 100%)";
+          break;
+        case "calm":
+          document.body.style.backgroundImage =
+            "linear-gradient(0deg, rgba(56,56,56,1) 0%, rgba(121,121,121,1) 28%, rgba(210,210,210,1) 64%, rgba(246,246,246,1) 100%)";
+          break;
+        default:
+          document.body.style.background = "";
+      }
+    }
+  }, [currentSong]);
+
   // When songName changes, find and set the selected song
   useEffect(() => {
     if (songName) {
