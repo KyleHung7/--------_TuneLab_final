@@ -7,7 +7,7 @@ import {
     faSyncAlt,
     faSync,
 } from "@fortawesome/free-solid-svg-icons";
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 
 const Player = ({
     currentSong,
@@ -16,67 +16,30 @@ const Player = ({
     audioRef,
     setSongInfo,
     songInfo,
-    songs,
-    setCurrentSong,
-    setSongs,
+    skipTrackHandler,
 }) => {
-    //useEffect
-    const activeLibraryHandler = (nextPrev) => {
-        const newSongs = songs.map((song) => {
-            if (song.id === nextPrev.id) {
-                return {
-                    ...song,
-                    active: true,
-                };
-            } else {
-                return {
-                    ...song,
-                    active: false,
-                };
-            }
-        });
-        setSongs(newSongs);
-        console.log("Hey from useEffect form player JS");
-    };
-    //Event Handlers
+    // Event Handlers
     const dragHandler = (e) => {
         audioRef.current.currentTime = e.target.value;
         setSongInfo({ ...songInfo, currentTime: e.target.value });
     };
+
     const playSongHandler = () => {
-        if (isPlaying) {
-            audioRef.current.pause();
-            setIsPlaying(!isPlaying);
-        } else {
-            audioRef.current.play();
-            setIsPlaying(!isPlaying);
+        if (audioRef.current) {
+            if (isPlaying) {
+                audioRef.current.pause(); // 暫停當前播放
+                setIsPlaying(false);
+            } else {
+                audioRef.current.play(); // 播放當前歌曲
+                setIsPlaying(true);
+            }
         }
     };
 
     const getTime = (time) =>
         Math.floor(time / 60) + ":" + ("0" + Math.floor(time % 60)).slice(-2);
-    const skipTrackHandler = async (direction) => {
-        let currentIndex = songs.findIndex(
-            (song) => song.id === currentSong.id
-        );
-        if (direction === "skip-forward") {
-            await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
-            activeLibraryHandler(songs[(currentIndex + 1) % songs.length]);
-        }
-        if (direction === "skip-back") {
-            if ((currentIndex - 1) % songs.length === -1) {
-                await setCurrentSong(songs[songs.length - 1]);
-                // playAudio(isPlaying, audioRef);
-                activeLibraryHandler(songs[songs.length - 1]);
 
-                return;
-            }
-            await setCurrentSong(songs[(currentIndex - 1) % songs.length]);
-            activeLibraryHandler(songs[(currentIndex - 1) % songs.length]);
-        }
-        if (isPlaying) audioRef.current.play();
-    };
-    //adding the styles
+    // Adding the styles
     const trackAnim = {
         transform: `translateX(${songInfo.animationPercentage}%)`,
     };
@@ -95,7 +58,9 @@ const Player = ({
         <div className="mt-[-20px] min-h-[20vh] flex flex-col items-center justify-between">
             {/* Time Control */}
             <div className="w-full flex items-center md:w-[58%]">
-                <p className="p-2 font-bold text-sm md:text-lg">{getTime(songInfo.currentTime)}</p>
+                <p className="p-2 font-bold text-sm md:text-lg">
+                    {getTime(songInfo.currentTime)}
+                </p>
                 <div
                     style={{
                         background: `linear-gradient(to right, ${currentSong.color[0]}, ${currentSong.color[1]})`,
@@ -110,10 +75,10 @@ const Player = ({
                         type="range"
                         className="w-full bg-transparent cursor-pointer appearance-none focus:outline-none
                         [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4"
-                        style={{ height: '3px' }}
+                        style={{ height: "3px" }}
                     />
-                    <div 
-                        style={trackAnim} 
+                    <div
+                        style={trackAnim}
                         className="absolute top-0 left-0 w-full h-full bg-[rgb(204,204,204)] pointer-events-none"
                     ></div>
                 </div>
@@ -155,14 +120,14 @@ const Player = ({
 
             {/* Player Song */}
             <div className="flex flex-col items-center justify-center p-5">
-                <button 
-                    onClick={toggleLoop} 
+                <button
+                    onClick={toggleLoop}
                     className="mt-[-8px] px-4 py-2 text-sm md:text-base text-white bg-[#4b0082] rounded 
                     cursor-pointer transition-colors duration-300 hover:bg-[#3a0066] 
                     flex items-center border-none"
                 >
-                    <FontAwesomeIcon 
-                        icon={isLooping ? faSyncAlt : faSync} 
+                    <FontAwesomeIcon
+                        icon={isLooping ? faSyncAlt : faSync}
                         className="mr-2"
                     />
                     {isLooping ? "Looping" : "Not Looping"}

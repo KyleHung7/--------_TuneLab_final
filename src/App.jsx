@@ -38,20 +38,18 @@ function MusicPlayer({ songs, setSongs }) {
   // Play the current song when it changes
   useEffect(() => {
     if (currentSong && audioRef.current) {
-      audioRef.current.pause(); // Stop previous song if playing
-      audioRef.current.load(); // Load the new song
-      if (isPlaying) {
-        audioRef.current.play(); // Play the new song if `isPlaying` is true
-      }
+        audioRef.current.pause(); // 停止當前播放
+        audioRef.current.load(); // 加載新歌曲
+        if (isPlaying) {
+            audioRef.current.play(); // 僅當正在播放時才播放新歌曲
+       }
     }
-  }, [currentSong, isPlaying]);
+  }, [currentSong]);
 
   const timeUpdateHandler = (e) => {
     const current = e.target.currentTime;
     const duration = e.target.duration;
-    const roundedCurrent = Math.round(current);
-    const roundedDuration = Math.round(duration);
-    const animation = Math.round((roundedCurrent / roundedDuration) * 100);
+    const animation = Math.round((current / duration) * 100);
     setSongInfo({
       currentTime: current,
       duration,
@@ -59,13 +57,25 @@ function MusicPlayer({ songs, setSongs }) {
     });
   };
 
-  const songEndHandler = async () => {
+  const skipTrackHandler = async (direction) => {
     let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
-    await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
+    if (direction === "skip-forward") {
+      const nextSong = songs[(currentIndex + 1) % songs.length];
+      await setCurrentSong(nextSong);
+    }
+    if (direction === "skip-back") {
+      const previousIndex = (currentIndex - 1 + songs.length) % songs.length;
+      const previousSong = songs[previousIndex];
+      await setCurrentSong(previousSong);
+    }
     if (isPlaying) audioRef.current.play();
   };
 
-  if (!songs || !currentSong) {
+  const songEndHandler = async () => {
+    skipTrackHandler("skip-forward");
+  };
+
+  if (!songs || songs.length === 0 || !currentSong) {
     return <p>Loading...</p>;
   }
 
@@ -81,8 +91,7 @@ function MusicPlayer({ songs, setSongs }) {
         isPlaying={isPlaying}
         setIsPlaying={setIsPlaying}
         currentSong={currentSong}
-        setCurrentSong={setCurrentSong}
-        setSongs={setSongs}
+        skipTrackHandler={skipTrackHandler} // Passing skip functionality to Player
       />
       <Library
         libraryStatus={libraryStatus}
