@@ -73,9 +73,10 @@ const Player = ({
                         value={songInfo.currentTime}
                         onChange={dragHandler}
                         type="range"
-                        className="w-full bg-transparent cursor-pointer appearance-none focus:outline-none
-                        [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4"
-                        style={{ height: "3px" }}
+                        className="absolute top-0 left-0 w-full h-full bg-transparent cursor-pointer appearance-none focus:outline-none
+                        [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:w-4 
+                        [&::-webkit-slider-track]:h-full"
+                        style={{ height: "100%" }}
                     />
                     <div
                         style={trackAnim}
